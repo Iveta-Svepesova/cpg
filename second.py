@@ -19,4 +19,6 @@ def cislo_text(cislo):
     else:
         return "Číslo mimo rozsah"
 
-
+if __name__ == "__main__":
+    for cislo in ["0", "1", "15", "25", "100"]:
+        print(cislo, "->", cislo_text(cislo))
