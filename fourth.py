@@ -1,13 +1,4 @@
 def je_tah_mozny(figurka, cilova_pozice, obsazene_pozice):
-    """
-    Ověří, zda se figurka může přesunout na danou pozici.
-
-    :param figurka: Slovník s informacemi o figurce (typ, pozice).
-    :param cilova_pozice: Cílová pozice na šachovnici jako n-tice (řádek, sloupec).
-    :param obsazene_pozice: Množina obsazených pozic na šachovnici.
-    :return: True, pokud je tah možný, jinak False.
-    """
-
     typ = figurka["typ"]
     start = figurka["pozice"]
     cil = cilova_pozice
@@ -20,20 +11,20 @@ def je_tah_mozny(figurka, cilova_pozice, obsazene_pozice):
     if not (1 <= x2 <= 8 and 1 <= y2 <= 8):
         return False
 
-    # 2️⃣ Cílové pole musí být volné
-    if cil in obsazena_pole:
-        return False
-
     dx = x2 - x1
     dy = y2 - y1
 
-    # 3️⃣ Logika pro každou figuru
     if typ == "pěšec":
-        # Pěšec se pohybuje nahoru (z menšího na větší y)
-        if dx == 0 and dy == 1 and cil not in obsazena_pole:
-            return True
-        # Dvojkrok z výchozí pozice (y == 2)
-        if dx == 0 and dy == 2 and y1 == 2 and (x1, 3) not in obsazena_pole and (x1, 4) not in obsazena_pole:
+        # pohyb vpřed
+        if dx == 0:
+            # jedno pole vpřed
+            if dy == 1 and cil not in obsazena_pole:
+                return True
+            # dva pole vpřed z výchozí pozice
+            if dy == 2 and y1 == 2 and (x1, 3) not in obsazena_pole and (x1, 4) not in obsazena_pole:
+                return True
+        # bicí tah diagonálně
+        if abs(dx) == 1 and dy == 1 and cil in obsazena_pole:
             return True
         return False
 
@@ -43,7 +34,6 @@ def je_tah_mozny(figurka, cilova_pozice, obsazene_pozice):
     elif typ == "věž":
         if dx != 0 and dy != 0:
             return False
-        # zkontroluj, že mezi startem a cílem nejsou jiné figury
         if dx == 0:
             step = 1 if dy > 0 else -1
             for y in range(y1 + step, y2, step):
@@ -67,12 +57,9 @@ def je_tah_mozny(figurka, cilova_pozice, obsazene_pozice):
         return True
 
     elif typ == "dáma":
-        # Kombinuje pohyb věže a střelce
         if dx == 0 or dy == 0:
-            # Dáma se chová jako věž
             return je_tah_mozny({"typ": "věž", "pozice": start}, cil, obsazena_pole)
         elif abs(dx) == abs(dy):
-            # Dáma se chová jako střelec
             return je_tah_mozny({"typ": "střelec", "pozice": start}, cil, obsazena_pole)
         else:
             return False
