@@ -1,64 +1,43 @@
 import sys
+import requests
+import re
 
-# definice úvodních binárních sekvencí obrázkových souborů
-jpeg_header = b'\xff\xd8\xff'
-gif_header1 = b'GIF87a'
-gif_header2 = b'GIF89a'
-png_header = b'\x89PNG\r\n\x1a\n'
 
-def read_header(file_name, header_length):
+def download_url_and_get_all_hrefs(url):
     """
-    Tato funkce načte binární soubor z cesty file_name,
-    z něj přečte prvních header_length bytů a ty vrátí pomocí return
+    Funkce stahne url predanou v parametru url pomoci volani response = requests.get(),
+    zkontroluje navratovy kod response.status_code, ktery musi byt 200,
+    pokud ano, najdete ve stazenem obsahu stranky response.content vsechny vyskyty
+    <a href="url">odkaz</a> a z nich nactete url, ktere vratite jako seznam pomoci return
     """
-    with open(file_name, "rb") as f:
-        return f.read(header_length)
+    hrefs = []
 
-def is_jpeg(file_name):
-    """
-    Funkce zkusí přečíst ze souboru hlavičku obrázku jpeg,
-    tu srovná s definovanou hlavičkou v proměnné jpeg_header
-    """
-    header = read_header(file_name, len(jpeg_header))
-    return header.startswith(jpeg_header)
+    response = requests.get(url)
 
-def is_gif(file_name):
-    """
-    Funkce zkusí přečíst ze souboru hlavičku obrázku gif,
-    tu srovná s definovanými hlavičkami v proměnných gif_header1 a gif_header2
-    """
-    header = read_header(file_name, max(len(gif_header1), len(gif_header2)))
-    return header.startswith(gif_header1) or header.startswith(gif_header2)
+    if response.status_code != 200:
+        print(f"Chyba: server vratil kod {response.status_code}")
+        return hrefs
 
-def is_png(file_name):
-    """
-    Funkce zkusí přečíst ze souboru hlavičku obrázku png,
-    tu srovná s definovanou hlavičkou v proměnné png_header
-    """
-    header = read_header(file_name, len(png_header))
-    return header.startswith(png_header)
+    html = response.text
 
-def print_file_type(file_name):
-    """
-    Funkce vypíše typ souboru - tuto funkci není třeba upravovat
-    """
-    if is_jpeg(file_name):
-        print(f'Soubor {file_name} je typu jpeg')
-    elif is_gif(file_name):
-        print(f'Soubor {file_name} je typu gif')
-    elif is_png(file_name):
-        print(f'Soubor {file_name} je typu png')
-    else:
-        print(f'Soubor {file_name} je neznámého typu')
+    # vyhledá všechny href odkazy
+    matches = re.findall(r'<a\s+href=["\'](.*?)["\']', html)
 
-if __name__ == '__main__':
+    # přidá jen absolutní odkazy
+    for m in matches:
+        if m.startswith("http"):
+            hrefs.append(m)
+
+    return hrefs
+
+
+if __name__ == "__main__":
     try:
-        file_name = sys.argv[1]
-    except IndexError:
-        print("Použití: python fifth.py cesta/k/obrazku")
-        sys.exit(1)
-
-    try:
-        print_file_type(file_name)
+        # URL ze zadání
+        url = "https://www.jcu.cz"
+        odkazy = download_url_and_get_all_hrefs(url)
+        print(odkazy)  # vypíše seznam odkazů, např.:
+        # ["https://www.jcu.cz/cz/prijimaci-zkousky/studijni-programy",
+        #  "https://www.jcu.cz/cz/prijimaci-zkousky/prijimaci-rizeni", ...]
     except Exception as e:
-        print(f"Nastala chyba: {e}")
+        print(f"Program skoncil chybou: {e}")
