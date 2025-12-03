@@ -6,3 +6,4 @@ def sudy_nebo_lichy(cislo):
 
 sudy_nebo_lichy(5)
 sudy_nebo_lichy(1000000)
+sudy_nebo_lichy(12)
