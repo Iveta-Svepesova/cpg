@@ -13,7 +13,14 @@ def spocitej_statistiku(text):
     pocet_slov = 0
     pocet_znaku = 0
 
-    # Vaše řešení zde
+    # počet znaků včetně mezer a konců řádků
+    pocet_znaku = len(text)
+
+    # počet řádků – splitlines() rozdělí text podle řádků
+    pocet_radku = len(text.splitlines())
+
+    # počet slov – split() rozdělí text podle whitespace (mezery, taby, nové řádky)
+    pocet_slov = len(text.split())
 
     return pocet_radku, pocet_slov, pocet_znaku
 
