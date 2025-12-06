@@ -6,7 +6,22 @@
 def filtruj_cisla(typ, cisla):
     vysledek = []
 
-    # Vaše řešení zde
+    for cislo in cisla:
+        if typ == "kladna":
+            if cislo > 0:
+                vysledek.append(cislo)
+        elif typ == "zaporna":
+            if cislo < 0:
+                vysledek.append(cislo)
+        elif typ == "suda":
+            if cislo % 2 == 0:
+                vysledek.append(cislo)
+        elif typ == "licha":
+            if cislo % 2 != 0:
+                vysledek.append(cislo)
+        else:
+            # neexistující typ → vrací prázdný seznam
+            return []
  
     return vysledek
 
