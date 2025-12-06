@@ -1,0 +1,20 @@
+Python je moderní programovací jazyk, který se používá v mnoha oblastech vývoje softwaru.
+Jeho syntaxe je jednoduchá a čitelná, což usnadňuje učení i pro začátečníky.
+Datové struktury jako seznamy, slovníky a množiny jsou velmi efektivní.
+Knihovny jako NumPy a Pandas umožňují práci s velkými objemy dat.
+Webové frameworky Django a Flask slouží k tvorbě internetových aplikací.
+Strojové učení a umělá inteligence využívají knihovny TensorFlow a PyTorch.
+Automatizace úkolů pomocí skriptů šetří čas a minimalizuje lidské chyby.
+Objektově orientované programování podporuje tvorbu modulárního kódu.
+Komunita kolem Pythonu je velmi aktivní a otevřená.
+Debugging a testování jsou klíčové pro kvalitní software.
+Verzovací systémy jako Git pomáhají při týmové spolupráci.
+Virtuální prostředí izolují závislosti jednotlivých projektů.
+Dokumentace kódu zvyšuje jeho udržitelnost a srozumitelnost.
+Regulární výrazy umožňují pokročilé zpracování textových dat.
+API rozhraní propojují různé aplikace a služby.
+Cloud computing nabízí škálovatelnou infrastrukturu pro deployment.
+Asynchronní programování zvyšuje výkon při operacích vstup výstup.
+Bezpečnost aplikací vyžaduje důkladné ošetření uživatelských vstupů.
+Open source projekty přispívají k rozvoji celého ekosystému.
+Kontinuální integrace zajišťuje vysokou kvalitu dodávaného kódu.
