@@ -23,16 +23,23 @@ class Zamestnanec(ABC):
 # Vytvorte tridu Programator, ktera dedi od Zamestnanec
 # Programator dostava 10% navíc proti mzdě vypočítané metodou vypocitej_mzdu ve tride Zamestnanec
 class Programator(Zamestnanec):
+    def vypocitej_mzdu(self):
+        zakladni_plus_bonus = super().vypocitej_mzdu()
+        return int(zakladni_plus_bonus * 1.10)  # 10% navíc
     pass
-
 
 # Vytvorte tridu Manazer, ktera dedi od Zamestnanec
 # konstruktor tridy Manazer prijima navic parametr pocet_podrizenych
 # Manazer dostava 1000 Kc navíc za každého podřízeného zaměstnance nad rámec mzdy
 # vypočítané metodou vypocitej_mzdu ve tride Zamestnanec
 class Manazer(Zamestnanec):
+    def __init__(self, jmeno, zakladni_mzda, pocet_podrizenych):
+        super().__init__(jmeno, zakladni_mzda)
+        self.pocet_podrizenych = pocet_podrizenych
+    def vypocitej_mzdu(self):
+        zakladni_plus_bonus = super().vypocitej_mzdu()  # základní mzda + bonus za odpracované roky
+        return zakladni_plus_bonus + 1000 * self.pocet_podrizenych
     pass
-
 
 if __name__ == "__main__":
     p1 = Programator("Alice", 40000)
